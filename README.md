@@ -1,4 +1,4 @@
-# calender-app
+# icalender-app
 
 ## Project setup
 ```
@@ -36,7 +36,6 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ### Overview
 
-The VueStacks calendar demo utilizes general Vue.js + Firebase CRUD functions to enable creating, updating, and deleting of events in a modified Vuetify calendar component (see the following to learn more about Vuetify calendars: https://vuetifyjs.com/en/components/calendars). 
 
 See full component in ```components/Calendar.vue```
 
@@ -63,4 +62,3 @@ firebase.initializeApp({
 
 export const db = firebase.firestore();
 ```
-Enjoy the demo! Submit an issue if you see anything that could be improved!
