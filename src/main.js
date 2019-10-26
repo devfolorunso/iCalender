@@ -5,6 +5,7 @@ import firebase from "firebase";
 import VueTextareaAutosize from 'vue-textarea-autosize'
 
 Vue.use(VueTextareaAutosize)
+Vue.use(require('moment'));
 
 Vue.config.productionTip = false
 

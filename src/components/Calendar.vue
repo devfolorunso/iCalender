@@ -1,7 +1,34 @@
 <template>
+ <v-card class="overflow-hidden">
+    <v-app-bar
+      :collapse="!collapseOnScroll"
+      :collapse-on-scroll="collapseOnScroll"
+      absolute
+      color="deep-purple accent-4"
+      dark
+      scroll-target="#scrolling-techniques-6"
+    >
+      <v-app-bar-nav-icon></v-app-bar-nav-icon>
+
+      <v-toolbar-title>iEvent</v-toolbar-title>
+
+      <v-spacer></v-spacer>
+
+      <v-checkbox
+        v-model="collapseOnScroll"
+        color="white"
+        hide-details
+      ></v-checkbox>
+    </v-app-bar>
+    <v-sheet
+      id="scrolling-techniques-6"
+      class="overflow-y-auto"
+      max-height="600"
+    >
   <v-container
         class="fill-height"
         fluid
+       style="height: 600px;"
       >
         <v-row
           align="center"
@@ -9,10 +36,10 @@
         >
           <v-col
             cols="12"
-            sm="8"
-            md="4"
+            md="10"
           >
       <v-sheet>
+        
         <v-toolbar flat color="white">
           <v-btn color="primary" dark @click.stop="dialog = true">
             New Event
@@ -133,12 +160,16 @@
 </v-col>
 </v-row>
   </v-container>
+    </v-sheet>
+  </v-card>
 </template>
 
 <script>
 import { db } from '@/main'
+import moment from 'moment'
 export default {
   data: () => ({
+   
     today: new Date().toISOString().substr(0, 10),
     focus: new Date().toISOString().substr(0, 10),
     type: 'month',
@@ -159,6 +190,8 @@ export default {
     selectedOpen: false,
     events: [],
     dialog: false,
+    collapseOnScroll: true,
+
   }),
   mounted () {
     this.getEvents()
@@ -200,8 +233,16 @@ export default {
       const events = []
       snapshot.forEach(doc => {
         let appData = doc.data()
-        appData.id = doc.id
-        events.push(appData)
+        appData.id = doc.id,
+      
+        
+        this.events.push(appData, {name: this.name,
+                              details: this.details,
+                              start: moment(this.end).format('yyyy-MM-dd'),
+                              end: moment(this.start).format('yyyy-MM-dd'),
+                             color: this.color})
+        // events.push(appData)
+        // console.log(appData)
       })
       this.events = events
     },
@@ -223,6 +264,10 @@ export default {
     },
     async addEvent () {
       if (this.name && this.start && this.end) {
+        
+        this.end = moment(this.end).format('yyyy-MM-dd');
+        this.start = moment(this.start).format('yyyy-MM-dd');
+
         await db.collection("calEvent").add({
           name: this.name,
           details: this.details,
@@ -235,7 +280,7 @@ export default {
         this.details = '',
         this.start = '',
         this.end = '',
-        this.color = ''
+        this.color = '#1976D2'
       } else {
         alert('You must enter event name, start, and end time')
       }
